@@ -1,21 +1,19 @@
 <script lang="ts" setup>
-console.log('Welcome nuxt js');
-
+console.log("Welcome nuxt js");
 </script>
 <template>
-   <section class="grid">
-      <LayoutSidebar></LayoutSidebar>
-      <div>
-   <slot />
-      </div>
-   </section>
+  <section class="grid">
+    <LayoutSidebar></LayoutSidebar>
+    <div>
+      <slot />
+    </div>
+  </section>
 </template>
 
-
 <style lang="scss" scoped>
-.grid{
-display: grid;
-grid-template-columns: 1fr 6fr;
-min-height: 100vh;
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  min-height: 100vh;
 }
 </style>

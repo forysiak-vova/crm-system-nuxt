@@ -1,24 +1,23 @@
 <script setup lang="ts">
-import { buttonVariants } from '.' 
-import { cn } from '@/utils'
+import { cn } from "@/utils";
+import { buttonVariants } from ".";
 
 interface Props {
-  variant?: NonNullable<Parameters<typeof buttonVariants>[0]>['variant']
-  size?: NonNullable<Parameters<typeof buttonVariants>[0]>['size']
-  as?: string
+  variant?: NonNullable<Parameters<typeof buttonVariants>[0]>["variant"];
+  size?: NonNullable<Parameters<typeof buttonVariants>[0]>["size"];
+  as?: string;
 }
 
 withDefaults(defineProps<Props>(), {
-  as: 'button',
-})
+  as: "button",
+});
 </script>
 
 <template>
   <component
     :is="as"
-    :as-child="asChild"
-    :class="cn(buttonVariants({ variant, size }), $attrs.class ?? '')"
-  >
+    :class="cn(buttonVariants({ variant, size }), $attrs.class ?? '')">
     <slot />
-  </component> 
+  </component>
 </template>
+~/utils/utils
