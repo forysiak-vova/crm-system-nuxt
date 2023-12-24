@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { cn } from '@/utils'
+import { cn } from "@/utils";
 
 const props = defineProps({
   class: {
     type: String,
-    default: '',
+    default: "",
   },
-})
+});
 </script>
 
 <template>

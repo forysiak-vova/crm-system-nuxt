@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-console.log("Welcome nuxt js");
 import { account } from "@/utils/appwrite";
 import { useAuthStore, useIsLoadingStore } from "~/store/auth.store";
 
