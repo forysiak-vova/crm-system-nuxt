@@ -3,6 +3,7 @@ import CreateDeal from "@/components/kanban/CreateDeal.vue";
 import { COLLECTION_DEALS, DB_ID } from "~/app.constants";
 import { convertCurrency } from "@/utils/convertCurrency";
 import type { ICard, IColumn } from "~/components/kanban/kanban.types";
+import { generateColumnStyle } from "~/components/kanban/generate-gradient";
 import { useKanbanQuery } from "@/components/kanban/useKanbanQuery";
 import dayjs from "dayjs";
 import { useMutation } from "@tanstack/vue-query";
@@ -53,8 +54,15 @@ function handleDrop(targetColumn: IColumn) {
     <div v-if="isLoading">Loadind...</div>
     <div v-else>
       <div class="grid grid-cols-5 gap-8">
-        <div v-for="(column, index) in data" :key="column.id">
-          <div class="rounded bg-slate-700 py-1 px-5 mb-2 text-center">
+        <div
+          v-for="(column, index) in data"
+          :key="column.id"
+          @dragover="handleDragOver"
+          @drop="() => handleDrop(column)"
+          class="min-h-screen">
+          <div
+            class="rounded bg-slate-700 py-1 px-5 mb-2 text-center"
+            :style="generateColumnStyle(index, data?.length)">
             {{ column.name }}
           </div>
           <div>
@@ -63,8 +71,9 @@ function handleDrop(targetColumn: IColumn) {
               v-for="card in column.items"
               :key="card.id"
               class="mb-5"
-              draggable="true">
-              <UiCardHeader role="button">
+              draggable="true"
+              @dragstart="() => handleDragStart(card, column)">
+              <UiCardHeader role="button" @click="store.set(card)">
                 <UiCardTitle>
                   {{ card.name }}
                 </UiCardTitle>
@@ -83,6 +92,7 @@ function handleDrop(targetColumn: IColumn) {
           </div>
         </div>
       </div>
+      <KanbanSlideover />
     </div>
   </div>
 </template>

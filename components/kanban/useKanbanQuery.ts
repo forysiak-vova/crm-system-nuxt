@@ -29,6 +29,8 @@ export function useKanbanQuery() {
           });
         }
       }
+      console.log(newBoard);
+
       return newBoard;
     },
   });
