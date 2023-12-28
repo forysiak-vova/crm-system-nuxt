@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import dayjs from "dayjs";
-import type { IDeal } from "../types/deals.types";
+import type { IDeal } from "~/types/deals.types";
 import { useComments } from "./useComments";
 import { useCreateComment } from "./useCreateComment";
 
@@ -12,7 +12,7 @@ const card = data as unknown as IDeal;
 
 <template>
   <UiInput
-    placeholder="Оставьте комментарий"
+    placeholder="Leave a comment"
     v-model="commentRef"
     @keyup.enter="writeComment" />
 
@@ -25,7 +25,7 @@ const card = data as unknown as IDeal;
       <Icon name="radix-icons:chat-bubble" class="mr-3 mt-1" size="20" />
       <div class="border-border bg-black/20 rounded p-3 w-full">
         <div class="mb-2 text-sm">
-          Комментарий {{ dayjs(comment.$createdAt).format("HH:mm") }}
+          Comment {{ dayjs(comment.$createdAt).format("HH:mm") }}
         </div>
         <p>{{ comment.text }}</p>
       </div>

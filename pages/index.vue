@@ -73,7 +73,7 @@ function handleDrop(targetColumn: IColumn) {
               class="mb-5"
               draggable="true"
               @dragstart="() => handleDragStart(card, column)">
-              <UiCardHeader role="button" @click="store.set(card)">
+              <UiCardHeader>
                 <UiCardTitle>
                   {{ card.name }}
                 </UiCardTitle>
@@ -88,6 +88,7 @@ function handleDrop(targetColumn: IColumn) {
               <UiCardFooter>
                 {{ dayjs(card.$createdAt).format("DD MMMM YYYY") }}
               </UiCardFooter>
+              <UiCardMore role="button" @click="store.set(card)" />
             </UiCard>
           </div>
         </div>
