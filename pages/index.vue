@@ -33,6 +33,14 @@ const { mutate } = useMutation({
   },
 });
 
+const { mutate: deleteCardMutation } = useMutation({
+  mutationKey: ["delete card"],
+  mutationFn: (id: string) => DB.deleteDocument(DB_ID, COLLECTION_DEALS, id),
+  onSuccess: () => {
+    refetch();
+  },
+});
+
 function handleDragStart(card: ICard, column: IColumn) {
   dragCardRef.value = card;
   sourceColumnRef.value = column;
@@ -47,6 +55,12 @@ function handleDrop(targetColumn: IColumn) {
     mutate({ docId: dragCardRef.value.id, status: targetColumn.id });
   }
 }
+function deleteDeal(id: string) {
+  deleteCardMutation(id);
+}
+onMounted(() => {
+  console.log("data", data);
+});
 </script>
 <template>
   <div class="p-10">
@@ -70,9 +84,13 @@ function handleDrop(targetColumn: IColumn) {
             <UiCard
               v-for="card in column.items"
               :key="card.id"
-              class="mb-5"
+              class="mb-5 relative"
               draggable="true"
               @dragstart="() => handleDragStart(card, column)">
+              <Icon
+                @click="deleteDeal(card.id)"
+                class="absolute top-2 right-2 hover:text-[#a252c8] cursor-pointer"
+                name="ion:trash-a" />
               <UiCardHeader>
                 <UiCardTitle>
                   {{ card.name }}

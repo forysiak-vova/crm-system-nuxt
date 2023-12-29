@@ -13,7 +13,7 @@ const props = defineProps({
   <div
     :class="
       cn(
-        'rounded-lg bg-card text-card-foreground animation border border-transparent transition-colors hover:border-[#a252c83d]',
+        'rounded-lg bg-card relative  text-card-foreground animation border border-transparent transition-colors hover:border-[#a252c83d]',
         props.class
       )
     ">
