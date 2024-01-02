@@ -27,6 +27,7 @@
     "@radix-icons/vue": "^1.0.0",
     "@tanstack/vue-query": "^5.14.6",
     "@vee-validate/nuxt": "^4.12.3",
+    "@vee-validate/zod": "^4.12.4",
     "@vueuse/core": "^10.7.0",
     "appwrite": "^13.0.1",
     "class-variance-authority": "^0.7.0",
@@ -36,6 +37,7 @@
     "radix-vue": "^1.2.4",
     "tailwind-merge": "^2.1.0",
     "tailwindcss-animate": "^1.0.7",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "zod": "^3.22.4"
   }
 }

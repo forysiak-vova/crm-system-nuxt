@@ -4,6 +4,9 @@ import { v4 as uuid } from "uuid";
 import { defineProps } from "vue";
 import { COLLECTION_DEALS, DB_ID } from "~/app.constants";
 import type { IDeal } from "~/types/deals.types";
+import { toTypedSchema } from "@vee-validate/zod";
+import { z } from "zod";
+import { Field } from "vee-validate";
 
 const isOpenForm = ref(false);
 
@@ -25,11 +28,30 @@ const props = defineProps({
   },
 });
 
-const { handleSubmit, defineField, handleReset } = useForm<IDealFormState>({
-  initialValues: {
-    status: props.status,
-  },
-});
+const schema = toTypedSchema(
+  z.object({
+    name: z
+      .string()
+      .min(2, { message: "Too short" })
+      .max(20, { message: "Too long" }),
+    price: z.number().min(1, { message: "Too short" }),
+    customer: z.object({
+      email: z.string().email({ message: "Must be a valid email" }),
+      name: z
+        .string()
+        .min(2, { message: "Too short" })
+        .max(20, { message: "Too long" }),
+    }),
+  })
+);
+
+const { handleSubmit, defineField, handleReset, values, errors } =
+  useForm<IDealFormState>({
+    validationSchema: schema,
+    initialValues: {
+      status: props.status,
+    },
+  });
 
 const [name, nameAttrs] = defineField("name");
 const [price, priceAttrs] = defineField("price");
@@ -69,30 +91,45 @@ const onSubmit = handleSubmit((values) => {
     </button>
   </div>
   <form v-if="isOpenForm" @submit="onSubmit" class="form">
-    <UiInput
-      placeholder="Наименование"
+    <Field
+      placeholder="Name"
+      name="name"
       v-model="name"
       v-bind="nameAttrs"
       type="text"
+      :class="{ 'is-in-valid': errors.name }"
       class="input" />
-    <UiInput
-      placeholder="Сумма"
-      v-model="price"
+    <div class="text-xs mb-2 text-red-500">{{ errors.name }}</div>
+
+    <Field
+      placeholder="Price"
+      name="price"
+      v-model.number="price"
       v-bind="priceAttrs"
       type="text"
+      :class="{ 'is-in-valid': errors.price }"
       class="input" />
-    <UiInput
+    <div class="text-xs mb-2 text-red-500">{{ errors.price }}</div>
+    <Field
       placeholder="Email"
+      name="customerEmail"
       v-model="customerEmail"
       v-bind="customerEmailAttrs"
       type="text"
+      :class="{ 'is-in-valid': errors['customer.email'] }"
       class="input" />
-    <UiInput
-      placeholder="Компания"
+    <div class="text-xs mb-2 text-red-500">
+      {{ errors?.["customer.email"] }}
+    </div>
+    <Field
+      placeholder="Company"
+      name="customerName"
       v-model="customerName"
       v-bind="customerNameAttrs"
       type="text"
+      :class="{ 'is-in-valid': errors['customer.name'] }"
       class="input" />
+    <div class="text-xs mb-2 text-red-500">{{ errors["customer.name"] }}</div>
 
     <button class="btn" :disabled="isPending">
       {{ isPending ? "Загрузка..." : "Добавить" }}
@@ -102,7 +139,10 @@ const onSubmit = handleSubmit((values) => {
 
 <style scoped>
 .input {
-  @apply border-[#161c26] mb-2 placeholder:text-[#748092] focus:border-border transition-colors;
+  @apply border-[#161c26] placeholder:text-[#748092] focus:border-border transition-colors flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50;
+}
+.is-in-valid {
+  border: 1px solid rgb(239 68 68 / 1);
 }
 
 .btn {
