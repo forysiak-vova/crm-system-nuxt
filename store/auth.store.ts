@@ -37,3 +37,16 @@ export const useIsLoadingStore = defineStore("isLoading", {
     },
   },
 });
+export const invalideMessageStore = defineStore("invalideMessage", {
+  state: () => ({
+    invalideMessage: "",
+  }),
+  actions: {
+    clear() {
+      this.$patch({ invalideMessage: "" });
+    },
+    set(data: string) {
+      this.$patch({ invalideMessage: data });
+    },
+  },
+});
