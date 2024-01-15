@@ -4,18 +4,13 @@ import { invalideMessageStore } from "~/store/auth.store";
 import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
 import { Field } from "vee-validate";
-// useHead({
-//   title: "Login | CRM System",
-// });
 useSeoMeta({
-  title: "Login | CRM System",
+  title: "Register | CRM System",
 });
-// useServerSeoMeta({
-//   title: "Login | CRM System",
-// });
 
 interface loginData {
   emailData: string;
+  nameData: string;
   passwordData: string;
 }
 
@@ -27,6 +22,7 @@ const schema = toTypedSchema(
       .min(5, { message: "Too short" })
       .max(30, { message: "Too long" }),
     passwordData: z.string().min(8, { message: "Too short" }),
+    nameData: z.string().min(3, { message: "Too short" }),
   })
 );
 
@@ -37,6 +33,7 @@ const { handleSubmit, defineField, handleReset, values, errors } =
 
 const [emailData, emailDataAttrs] = defineField("emailData");
 const [passwordData, passworDataAttrs] = defineField("passwordData");
+const [nameData, NameDataAttrs] = defineField("nameData");
 
 const isLoadingStore = useIsLoadingStore();
 const authStore = useAuthStore();
@@ -64,35 +61,50 @@ const login = async () => {
         status: response.status,
       });
     }
-  } catch (e) {
-    console.log("e", e);
+  } catch (error) {
+    const e = JSON.parse(JSON.stringify(error));
+    useMessageStore.set(e.response.message);
   }
 
   await router.push("/");
 
   isLoadingStore.set(false);
 };
+const register = async () => {
+  try {
+    await account.create(
+      uuid(),
+      values.emailData,
+      values.passwordData,
+      values.nameData
+    );
+    await login();
+  } catch (error) {
+    const e = JSON.parse(JSON.stringify(error));
+    useMessageStore.set(e.response.message);
+  }
+};
 const onSubmit = handleSubmit((values) => {
-  login();
+  register();
 });
 </script>
 
 <template>
   <div class="flex gap-1 justify-end absolute top-3 right-3">
     <button
-      class="text-xs bg-[#202937] px-2 hover:bg-[#354359] activeBtn"
+      class="text-xs bg-[#202937] px-2 hover:bg-[#354359]"
       @click="() => router.push('/login')">
       Sign in
     </button>
     <button
-      class="text-xs bg-[#202937] px-2 hover:bg-[#354359]"
+      class="text-xs bg-[#202937] px-2 hover:bg-[#354359] activeBtn"
       @click="() => router.push('/register')">
       Sign up
     </button>
   </div>
   <div class="flex items-center justify-center min-h-screen w-full">
     <div class="rounded bg-sidebar w-1/2 p-5">
-      <h1 class="text-2xl font-bold text-center mb-5">Login</h1>
+      <h1 class="text-2xl font-bold text-center mb-5">Register</h1>
       <div class="text-red-500 mb-1">{{ useMessageStore.invalideMessage }}</div>
       <form @submit="onSubmit">
         <Field
@@ -111,8 +123,18 @@ const onSubmit = handleSubmit((values) => {
           v-bind="passworDataAttrs"
           class="input" />
         <div class="text-xs mb-2 text-red-500">{{ errors.passwordData }}</div>
+        <Field
+          v-model="nameData"
+          placeholder="name"
+          name="nameData"
+          type="text"
+          v-bind="NameDataAttrs"
+          class="input" />
+        <div class="text-xs mb-2 text-red-500">
+          {{ errors.nameData }}
+        </div>
         <div class="flex items-center justify-center gap-5">
-          <UiButton type="submit">Login</UiButton>
+          <UiButton type="submit">Register</UiButton>
         </div>
       </form>
     </div>
