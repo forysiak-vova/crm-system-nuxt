@@ -60,8 +60,11 @@ const [customerName, customerNameAttrs] = defineField("customer.name");
 
 const { mutate, isPending } = useMutation({
   mutationKey: ["create a new deal"],
-  mutationFn: (data: IDealFormState) =>
-    DB.createDocument(DB_ID, COLLECTION_DEALS, uuid(), data),
+  mutationFn: (data: IDealFormState) => {
+    const newData = { ...data, status: props.status };
+    return DB.createDocument(DB_ID, COLLECTION_DEALS, uuid(), newData);
+  },
+
   onSuccess() {
     props.refetch && props.refetch();
     handleReset();
@@ -131,7 +134,14 @@ const onSubmit = handleSubmit((values) => {
       class="input" />
     <div class="text-xs mb-2 text-red-500">{{ errors["customer.name"] }}</div>
 
-    <button class="btn" :disabled="isPending">
+    <button
+      class="btn"
+      :disabled="isPending"
+      @click="
+        () => {
+          console.log('props.status', props.status);
+        }
+      ">
       {{ isPending ? "Загрузка..." : "Добавить" }}
     </button>
   </form>

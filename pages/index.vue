@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { useMutation } from "@tanstack/vue-query";
 import { useDealSlideStore } from "~/store/deal-slide.store";
 import type { EnumStatus } from "~/types/deals.types";
+import { showSidebar } from "~/store/show-sidebar";
 
 useSeoMeta({ title: "Home | CRM System" });
 
@@ -58,22 +59,34 @@ function handleDrop(targetColumn: IColumn) {
 function deleteDeal(id: string) {
   deleteCardMutation(id);
 }
+const setSidebarTrue = showSidebar();
 onMounted(() => {
   console.log("data", data);
 });
 </script>
 <template>
-  <div class="p-10">
-    <h1 class="font-bold test-2xl mb-10">Kanban Board</h1>
+  <div class="kanban-section">
+    <div class="top-kanban">
+      <Icon
+        class="icon-show-sidebar"
+        @click="
+          () => {
+            setSidebarTrue.set(true);
+          }
+        "
+        name="uil:align"
+        size="20" />
+      <h1 class="font-bold test-2xl mb-10">Kanban Board</h1>
+    </div>
     <div v-if="isLoading">Loadind...</div>
     <div v-else>
-      <div class="grid grid-cols-5 gap-8">
+      <div class="grid-section">
         <div
           v-for="(column, index) in data"
           :key="column.id"
           @dragover="handleDragOver"
           @drop="() => handleDrop(column)"
-          class="min-h-screen">
+          class="drop-sektion">
           <div
             class="rounded bg-slate-700 py-1 px-5 mb-2 text-center"
             :style="generateColumnStyle(index, data?.length)">
@@ -116,4 +129,53 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.grid-section {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  @media (min-width: 1350px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 1450px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 1550px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (min-width: 1700px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .drop-sektion {
+    min-height: 10rem;
+    @media (min-width: 1700px) {
+      min-height: 100vh;
+    }
+  }
+}
+.kanban-section {
+  padding: 2rem;
+  @media (max-width: 576px) {
+    padding: 1.25rem;
+  }
+  .top-kanban {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    @media (max-width: 768px) {
+      margin-bottom: 0.75rem;
+    }
+    h1 {
+      @media (max-width: 768px) {
+        margin: 0 !important;
+      }
+    }
+    .icon-show-sidebar {
+      cursor: pointer;
+      @media (min-width: 769px) {
+        display: none;
+      }
+    }
+  }
+}
+</style>

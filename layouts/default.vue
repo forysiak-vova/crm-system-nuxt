@@ -19,9 +19,9 @@ onMounted(async () => {
 </script>
 <template>
   <LayoutLoader v-if="isLoadingStore.isLoading" />
-  <section v-else :class="{ grid: authStore.isAuth }">
+  <section class="section" v-else :class="{ grid: authStore.isAuth }">
     <LayoutSidebar v-if="authStore.isAuth" />
-    <div>
+    <div class="kanban">
       <slot />
     </div>
   </section>
@@ -32,5 +32,15 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: 1fr 6fr;
   min-height: 100vh;
+}
+.section {
+  @media (max-width: 768px) {
+    display: flex;
+  }
+  .kanban {
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
 }
 </style>

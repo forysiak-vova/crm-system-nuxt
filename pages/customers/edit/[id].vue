@@ -12,7 +12,7 @@ interface ICustomerFormState
   extends Pick<ICustomer, "avatar_url" | "email" | "name" | "from_source"> {}
 
 useSeoMeta({
-  title: `Редактирование компании`,
+  title: `Edit company`,
 });
 
 const route = useRoute();
@@ -63,12 +63,12 @@ const onSubmit = handleSubmit((values) => {
 <template>
   <div class="p-10">
     <h1 class="font-bold text-2xl mb-10">
-      Редактирование {{ (data as unknown as ICustomerFormState)?.name }}
+      Edit {{ (data as unknown as ICustomerFormState)?.name }}
     </h1>
 
     <form @submit="onSubmit" class="form">
       <UiInput
-        placeholder="Наименование"
+        placeholder="Name"
         v-model="name"
         v-bind="nameAttrs"
         type="text"
@@ -81,7 +81,7 @@ const onSubmit = handleSubmit((values) => {
         type="text"
         class="input" />
       <UiInput
-        placeholder="Откуда пришел?"
+        placeholder="Where did you come from?"
         v-model="fromSource"
         v-bind="fromSourceAttrs"
         type="text"
@@ -96,7 +96,7 @@ const onSubmit = handleSubmit((values) => {
         class="rounded-full my-4" />
       <div class="grid w-full max-w-sm items-center gap-1.5 input">
         <label>
-          <div class="text-sm mb-2">Логотип</div>
+          <div class="text-sm mb-2">Logo</div>
           <UiInput
             type="file"
             :onchange="(e:InputFileEvent) => e?.target?.files?.length && uploadImage(e.target.files[0])"
@@ -105,7 +105,7 @@ const onSubmit = handleSubmit((values) => {
       </div>
 
       <UiButton :disabled="isPending" variant="secondary" class="mt-3">
-        {{ isPending ? "Загрузка..." : "Сохранить" }}
+        {{ isPending ? "Download..." : "Save" }}
       </UiButton>
     </form>
   </div>

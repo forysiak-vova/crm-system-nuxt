@@ -67,8 +67,6 @@ const login = async () => {
   }
 
   await router.push("/");
-
-  isLoadingStore.set(false);
 };
 const register = async () => {
   try {
@@ -103,7 +101,7 @@ const onSubmit = handleSubmit((values) => {
     </button>
   </div>
   <div class="flex items-center justify-center min-h-screen w-full">
-    <div class="rounded bg-sidebar w-1/2 p-5">
+    <div class="rounded bg-sidebar w-1/2 p-5 max-w-2xl">
       <h1 class="text-2xl font-bold text-center mb-5">Register</h1>
       <div class="text-red-500 mb-1">{{ useMessageStore.invalideMessage }}</div>
       <form @submit="onSubmit">

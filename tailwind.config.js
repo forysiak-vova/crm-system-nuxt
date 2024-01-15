@@ -1,4 +1,5 @@
 const animate = require("tailwindcss-animate");
+const screens = require("tailwindcss/defaultConfig");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -8,8 +9,15 @@ module.exports = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
+      extend: {
+        screens: {
+          sm: "576px",
+          md: "768px",
+          lg: "1024px",
+          xl: "1280px",
+          "2xl": "1650px",
+          full: "1700px",
+        },
       },
     },
     fontSize: {
