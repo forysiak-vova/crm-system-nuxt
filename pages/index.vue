@@ -65,7 +65,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="kanban-section">
+  <div class="kanban-section p-5 md:p-10">
     <div class="top-kanban">
       <Icon
         class="icon-show-sidebar"
@@ -154,10 +154,6 @@ onMounted(() => {
   }
 }
 .kanban-section {
-  padding: 2rem;
-  @media (max-width: 576px) {
-    padding: 1.25rem;
-  }
   .top-kanban {
     display: flex;
     align-items: center;

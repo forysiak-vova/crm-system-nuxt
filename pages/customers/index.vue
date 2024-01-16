@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/vue-query";
 import { COLLECTION_CUSTOMERS, DB_ID } from "~/app.constants";
 import type { ICustomer } from "~/types/deals.types";
+import { showSidebar } from "~/store/show-sidebar";
 
 useSeoMeta({
   title: "Customers | CRM System",
@@ -11,11 +12,23 @@ const { data: customers, isLoading } = useQuery({
   queryKey: ["customers"],
   queryFn: () => DB.listDocuments(DB_ID, COLLECTION_CUSTOMERS),
 });
+const setSidebarTrue = showSidebar();
 </script>
 
 <template>
-  <div class="p-10">
-    <h1 class="font-bold text-2xl mb-10">Our customers</h1>
+  <div class="p-5 md:p-10">
+    <div class="top-our-customers">
+      <Icon
+        class="icon-show-sidebar"
+        @click="
+          () => {
+            setSidebarTrue.set(true);
+          }
+        "
+        name="uil:align"
+        size="20" />
+      <h1 class="font-bold text-2xl mb-10">Our customers</h1>
+    </div>
     <div v-if="isLoading">Loading...</div>
     <UiTable v-else>
       <UiTableHeader>
@@ -56,3 +69,25 @@ const { data: customers, isLoading } = useQuery({
     </UiTable>
   </div>
 </template>
+<style lang="scss" scoped>
+.top-our-customers {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  @media (max-width: 768px) {
+    margin-bottom: 0.75rem;
+  }
+  h1 {
+    @media (max-width: 768px) {
+      margin: 0 !important;
+      font-size: 1.5rem;
+    }
+  }
+  .icon-show-sidebar {
+    cursor: pointer;
+    @media (min-width: 769px) {
+      display: none;
+    }
+  }
+}
+</style>

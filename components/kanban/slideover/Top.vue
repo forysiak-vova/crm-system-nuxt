@@ -7,7 +7,18 @@ const store = useDealSlideStore();
 
 <template>
   <div class="border-border bg-black/20 rounded p-3">
-    <div class="bold text-xl mb-4">About the deal</div>
+    <div class="bold text-xl mb-4">
+      <Icon
+        name="mdi:close-outline"
+        size="20"
+        class="cursor-pointer absolute top-1 left-1"
+        @click="
+          () => {
+            store.toggle();
+          }
+        " />
+      About the deal
+    </div>
     <KanbanSlideoverLabel label-text="Name">
       <h2>
         {{ store.card?.name }}
