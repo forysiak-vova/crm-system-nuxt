@@ -76,7 +76,7 @@ onMounted(() => {
         "
         name="uil:align"
         size="20" />
-      <h1 class="font-bold test-2xl mb-10">Kanban Board</h1>
+      <h1 class="font-bold text-2xl mb-10">Kanban Board</h1>
     </div>
     <div v-if="isLoading">Loadind...</div>
     <div v-else>

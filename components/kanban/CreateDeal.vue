@@ -142,7 +142,7 @@ const onSubmit = handleSubmit((values) => {
           console.log('props.status', props.status);
         }
       ">
-      {{ isPending ? "Загрузка..." : "Добавить" }}
+      {{ isPending ? "Loading..." : "Add" }}
     </button>
   </form>
 </template>
